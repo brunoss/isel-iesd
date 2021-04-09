@@ -94,6 +94,6 @@ public class VectorClient {
 	
     public static void main(String[] args) throws InterruptedException 
     {
-    	multipleClients();
+    	singleClient();
     }
 }
