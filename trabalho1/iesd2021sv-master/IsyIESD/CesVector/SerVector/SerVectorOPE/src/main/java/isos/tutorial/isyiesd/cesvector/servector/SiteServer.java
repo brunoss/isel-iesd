@@ -9,28 +9,37 @@ public class SiteServer {
 
     public static void main(String[] args) {
     	int sum = Vector.sum();
-    	System.out.print(sum + "");
+    	System.out.println(sum + "");
     	
         Endpoint ep = Endpoint.create(new Vector());
         System.out.println("Starting SiteServer...");
         ep.publish("http://localhost:2058/Vector");
         
         Thread thread = new Thread(() -> {
+        	long elapsed = -1;
+        	long time = System.currentTimeMillis();
+        	
         	while(true) {
-        		int thisSum = Vector.sum();
-        		if(sum != thisSum) {
-                	System.out.println("Invariante não cumprida");
-                	System.out.println(thisSum + "");
+        		int currentSum = Vector.sum();
+        		if(sum != currentSum) {
+                	System.out.println("INVARIANTE NÃO CUMPRIDA");
+                	System.out.println(currentSum + "");
                 	break;
         		}else {
-                	System.out.println("Invariante cumprida");
-                	try {
-						Thread.sleep(10000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+        			if(elapsed < 0 || elapsed > 10 * 1000) {
+                    	time = System.currentTimeMillis();
+                    	System.out.println("Invariante cumprida");
+        			}
+    				elapsed = System.currentTimeMillis() - time;
         		}
+        		
+        		try {
+        			//Só para poupar energia e não estar o tempo todo a verificar a invariante.
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
         	}
         	
         });
