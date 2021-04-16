@@ -8,7 +8,7 @@ import javax.xml.ws.Endpoint;
 public class SiteServer {
 
     public static void main(String[] args) {
-    	int sum = Vector.sum();
+    	int sum = Vector.sum(2000);
     	System.out.println(sum + "");
     	
         Endpoint ep = Endpoint.create(new Vector());
@@ -20,7 +20,7 @@ public class SiteServer {
         	long time = System.currentTimeMillis();
         	
         	while(true) {
-        		int currentSum = Vector.sum();
+        		int currentSum = Vector.sum(2000);
         		if(sum != currentSum) {
                 	System.out.println("INVARIANTE NÃO CUMPRIDA");
                 	System.out.println(currentSum + "");
