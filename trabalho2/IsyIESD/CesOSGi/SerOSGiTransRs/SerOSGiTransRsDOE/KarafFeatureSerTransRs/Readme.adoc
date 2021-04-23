@@ -1,0 +1,78 @@
+KarafFeatureSerHelloRsKarafFeatureSerHelloRsKarafFeatureSerHelloRsKarafFeatureSerHelloRsKarafFeatureSerHelloRs= Project Karaf.DOE
+
+Demonstration of deployment on the Karaf/OSGi runtime
+
+Install Karaf from http://karaf.apache.org/download.html[link] and unzip to e.g., c:\Java directory.
+
+Define the environment variable KARAF_HOME and add to path %KARAF_HOME%\bin
+
+Start the Karaf in a cleaned state, depending on you want or not preserve previous state. 
+
+* <KARAF_HOME>\bin\karaf [clean]
+
+You can  install the webconsole feature and open it through the address http://localhost:8181/system/console/bundles[link].
+
+See more about karaf installation at https://karaf.apache.org/manual/latest/#_prerequisites[link].
+
+In the Karaf console give the following commands sequence:
+
+[standard output]
+----
+feature:install webconsole
+
+feature:install scr
+feature:repo-add aries-rsa 1.14.0
+feature:repo-add cxf-dosgi
+feature:install cxf-dosgi-provider-ws
+
+feature:install aries-rsa-core
+feature:install aries-rsa-discovery-zookeeper
+feature:install aries-rsa-discovery-config
+
+feature:repo-add mvn:isos.tutorial.isyiesd.cesosgi.serosgitransrs.serosgitransrsdoe/KarafFeatureSerTransRs/0.1.0/xml/features
+feature:install KarafFeatureSerTransRs
+----
+If there is an error stating that Translator class is not found, a turn around is to install separately each bundle of the feature. Do not forget to check if SCR, cxf-dosgi and aries are installed.
+----
+bundle:install mvn:isos.tutorial.isyiesd.cesosgi.cesosgiapim/TranslatorAPI/0.1.0
+bundle:install mvn:isos.tutorial.isyiesd.cesosgi.serosgitransrs/SerOSGiTransRsOPE/0.1.0
+list
+START LEVEL 100 , List Threshold: 50
+ ID | State     | Lvl | Version | Name
+ ----+-----------+-----+---------+--------------------------------------------------------------------------------------
+ 26 | Active    |  80 | 4.2.11  | Apache Karaf :: OSGi Services :: Event
+ 57 | Active    |  80 | 1.14.0  | Aries Remote Service Admin Core
+ 58 | Active    |  80 | 1.14.0  | Aries Remote Service Admin Discovery Gogo Commands
+ 59 | Active    |  80 | 1.14.0  | Aries Remote Service Admin Event Publisher
+ 60 | Active    |  80 | 1.14.0  | Aries Remote Service Admin SPI
+ 61 | Active    |  80 | 1.14.0  | Aries Remote Service Admin Topology Manager
+ 74 | Active    |  80 | 2.3.0   | CXF DOSGi Common
+ 75 | Active    |  80 | 2.3.0   | CXF DOSGi Service decorator support
+ 76 | Active    |  80 | 2.3.0   | CXF DOSGi provider ws
+ 91 | Active    |  80 | 4.18.0  | Apache XBean OSGI Bundle Utilities
+ 92 | Active    |  80 | 4.18.0  | Apache XBean :: Classpath Resource Finder
+131 | Active    |  80 | 1.14.0  | Aries Remote Service Admin Discovery Local
+132 | Active    |  80 | 1.14.0  | Aries Remote Service Admin Discovery Zookeeper
+133 | Active    |  80 | 3.4.14  | ZooKeeper Bundle
+134 | Active    |  80 | 1.14.0  | Aries Remote Service Admin Discovery Config
+135 | Installed |  80 | 0.1.0   | API :: TranslatorAPI
+136 | Installed |  80 | 0.1.0   | SERVICE :: SerOSGiTransRsOPE
+start 136
+## TranslatorImpl contructor...
+CES :: TranslatorImpl.activate()...
+CES :: TranslatorImpl.translate()...
+Returned from TranslatorImpl.translate():TRANSLATION REMOTE SERVICE TEMPORARILY UNAVAILABLE...
+list
+...
+135 | Resolved |  80 | 0.1.0   | API :: TranslatorAPI
+136 | Active   |  80 | 0.1.0   | SERVICE :: SerOSGiTransRsOPE
+----
+If installation runs ok, the result is:
+----
+## TranslatorImpl contructor...
+CES :: TranslatorImpl.activate()...
+CES :: TranslatorImpl.translate()...
+Returned from TranslatorImpl.translate():TRANSLATION REMOTE SERVICE TEMPORARILY UNAVAILABLE...
+karaf@root()>             
+----
+

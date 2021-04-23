@@ -1,0 +1,10 @@
+= Project SerJavaMainOPE
+
+A simple Java executable to instantiate HelloWorldImpl class and call the HelloWorld interface method sayHello().
+
+To execute the example:
+----
+C:\Users\user.name\git\iesd2021sv\IsyIESD\CesOsgi\SerJavaMain\SerJavaMainOPE>java -jar target\SerJavaMainOPE-0.1.0-jar-with-dependencies.jar
+----
+
+You can read more about how to generate an executable JAR at: https://www.baeldung.com/executable-jar-with-maven[link]

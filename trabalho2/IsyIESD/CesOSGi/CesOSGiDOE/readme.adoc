@@ -1,0 +1,88 @@
+= Project CesOSGiDOE
+
+The deployment of Service elements can be done in different ways:
+* Operating system executable, Linux, Windows, MacOS, etc.
+* Java Virtual Machine (JVM)
+* OSGi runtime, e.g., Apache Karaf, Apache Felix, Eclipse Equinox, etc.
+* JINI dynamic distributed services framework
+* Java Enterprise Edition (JEE) bean components execution runtime. More recent implementation run on OSGi and since are made of OSGi bundles adopting services or bundle dependency mechanisms
+* Java Spring has a strong relation to OSGi through the Dynamic Services concept.
+* all above through a Unix/Linux container mechanism, e.g. docker, Windows Subsystem for Linux (WSL) 2
+* A specific, proprietary or open, deployment mechanism
+
+
+== For distributed Service elements
+An open integrated system or framework offering automation mechanisms to scale for thousand of service elements is lacking.
+
+We explore the OSGi open specifications as an interesting initiative towards such integrated life cycle management of Service elements. The 100 Remote Services specification has two main implementations (distribution providers):
+* Apache Aires Remote Service Admin (RSA) and Apache CXF (Soap and Rest web services framework) DOSGi project. The DOSGi project aims at offering transparent management of dependencies among services running on distributed OSGi containers (OSGi runtime).
+* The Eclipse Communication Framework (https://www.eclipse.org/ecf/[ECF]) is a "fully-compliant implementation of the OSGi Remote Services standard".
+
+== The OSGi runtime Apache Karaf
+Consider the version 4.2.11 of Apache Karaf you can download from http://archive.apache.org/dist/karaf/4.2.11/apache-karaf-4.2.11.zip[link]
+Remember that validation without errors occurred with JDK 8
+
+=== Starting Apache Karaf
+If the environment variable %KARAF_HOME% is defined  and added to %PATH% you can instantiate Karaf by writing karaf followed by clean, if you want to start a clean instance, i.e. you do not want to restart a previous running instance (the default without the clean argument).
+
+* you can use the command line interface or else an available web interface, we install by loading the webconsole feature and access it through the URL http://localhost:8181/system/console[link] using for authentication the default user/password karaf/karaf.
+
+----
+echo %KARAF_HOME%
+C:\Java\apache-karaf-4.2.11
+karaf clean
+karaf.bat: Ignoring predefined value for KARAF_HOME
+        __ __                  ____
+       / //_/____ __________ _/ __/
+      / ,<  / __ `/ ___/ __ `/ /_
+     / /| |/ /_/ / /  / /_/ / __/
+    /_/ |_|\__,_/_/   \__,_/_/
+
+  Apache Karaf (4.2.11)
+
+Hit '<tab>' for a list of available commands
+and '[cmd] --help' for help on a specific command.
+Hit '<ctrl-d>' or type 'system:shutdown' or 'logout' to shutdown Karaf.
+
+karaf@root()>feature:install webconsole
+----
+
+You can also configure a secure remote access through ssh, see configuration instructions at https://karaf.apache.org/manual/latest/remote[link], how to configure and access to the SSHd server.
+
+=== Component Services Runtime (CSR), the DOSGi (Apache ARIES + Apache CXF) and Zookeeper configuration
+One important element is the lookup service, the aries implementation adopts the Apache Zookeeper. Therefore, a Zookeeper instance needs to be instantiated and configured (the next section).
+
+To prepare n OSGi runtime (Apache Karaf) for Remote Services there is the need to install the scr, aries and cxf features
+----
+feature:install scr
+feature:repo-add cxf-dosgi
+feature:install cxf-dosgi-provider-ws
+
+feature:repo-add aries-rsa 1.14.0
+feature:install aries-rsa-core
+
+config:property-set -p org.apache.aries.rsa.discovery.zookeeper zookeeper.host localhost
+feature:install aries-rsa-discovery-config
+
+feature:install aries-rsa-discovery-zookeeper
+----
+
+Note that before installing the aries-rsa-discovery-config feature the configuration variable zookeeper.host is set to localhost. The value depends on the server name where Apache Zookeeper was instantiated to be used as the lookup service (or service registry or service directory).
+
+=== Zookeeper installation and configuration
+* You can download Apache Zookeeper from https://zookeeper.apache.org/releases.html[link], current version 3.7.0
+** If you install at \Java\apache-zookeeper-3.7.0-bin go to directory conf and rename the zoo_sample.cfg file to zoo.cfg
+** to start the Zookeeper server C:\Java\apache-zookeeper-3.7.0-bin\bin\zkServer
+** to start a client, C:\Java\apache-zookeeper-3.7.0-bin\bin\zkCli -server localhost; or the server where Zookeekeeper is running
+*** You can check the osgi published services with the command ls /osgi/service_registry
+
+Example
+----
+[zk: localhost(CONNECTED) 1] ls /
+[osgi, zookeeper]
+[zk: localhost(CONNECTED) 2] ls /osgi/service_registry
+[http:##generoso2:9010#HelloWorld, http:##generoso2:9020#Translator]
+[zk: localhost(CONNECTED) 3]
+----
+
+

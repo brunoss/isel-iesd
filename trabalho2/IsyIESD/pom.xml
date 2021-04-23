@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>isos.tutorial</groupId>
+	<artifactId>IsyIESD</artifactId>
+	<version>0.1.0</version>
+	<packaging>pom</packaging>
+	
+	<name>${module.type} isyiesd</name>
+	<url>${isos.base.url}</url>
+
+	<properties>
+		<isos.base.url>http://iesd.isos.mdeos.org</isos.base.url>
+		<module.type>ISYSTEM ::</module.type>
+		<java-release>11</java-release>
+		<java-source>11</java-source>
+		<java-target>11</java-target>
+		<maven-assembly-plugin>3.3.0</maven-assembly-plugin>
+		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
+		<maven-clean-plugin>3.1.0</maven-clean-plugin>
+	</properties>
+
+	<modules>
+		<module>CesVector</module>
+		<module>CesOSGi</module>
+	</modules>
+</project>

@@ -1,0 +1,5 @@
+= Project SerOSGiRsOPE
+
+Issues to remember
+* Since the service endpoint, host:port is published on the (self) server, the hostname can't be localhost nor the meta-address 0.0.0.0 (publishing to all interfaces).
+

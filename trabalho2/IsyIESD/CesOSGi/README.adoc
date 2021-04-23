@@ -1,0 +1,27 @@
+= IESD :: IsyIESD.CesOSGi projects
+
+== General Notes
+* The examples consider JDK 8, you can install from https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html[link]
+* Consider the version 4.2.11 of Apache Karaf you can download from http://archive.apache.org/dist/karaf/4.2.11/apache-karaf-4.2.11.zip[link]
+
+
+== CesOSGiAPIM
+Application Programming Interface and Models (APIM) common to Service elements
+
+== CesOSGiDOE
+Deployment and Operations Entity (DOE) the set os examples (CES, API, and Libraries)
+
+== SerJava and SerJavaMain
+A simple java application where deployment is suggested through a "Uber jar" to be executed with the command java -jar <jarfile>. The jar files are deployed on OSGi runtime through an automatic wrapper, without any direct execution mechanism (the static main() is the Java entry point)
+
+== SerOSGiBa and SerOSGiBaCli
+OSGi example implementing BundleActivator with bundle dependencies
+
+== SerOSGiBas and SerOSGiBasCli
+OSGi example implementing BundleActivator and services
+
+== SerOSGiDs and SerOSGiDsCli
+OSGi services based on the Declarative Services DI/IoC mechanism (pattern)
+
+== SerOSGiDs and SerOSGiDsCli
+OSGi distributed services also adopting the Declarative Services mechanism and based on the Remote Services specification. Adopts Apache Aries, CXF, and Zookeeper

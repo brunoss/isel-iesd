@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>isos.tutorial</groupId>
+		<artifactId>ISyIESD</artifactId>
+		<version>0.1.0</version>
+	</parent>
+
+	<groupId>isos.tutorial.isyiesd</groupId>
+	<artifactId>CesOsgi</artifactId>
+	<packaging>pom</packaging>
+
+	<name>${module.type} CesOsgi</name>
+	<description>Simple OSGi services examples</description>
+
+	<properties>
+		<module.type>CES ::</module.type>
+		<osgi>6.0.0</osgi>
+		<osgi.cmpn>6.0.0</osgi.cmpn>
+		<org.osgi.service.component>1.4.0</org.osgi.service.component>
+		<org.osgi.service.component.annotations>1.4.0</org.osgi.service.component.annotations>
+		<osgi.annotation>6.0.0</osgi.annotation>
+
+		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
+		<maven-assembly-plugin>3.3.0</maven-assembly-plugin>
+		<maven-scr-plugin>1.24.0</maven-scr-plugin>
+		<maven-install-plugin>2.5.2</maven-install-plugin>
+		<maven-bundle-plugin>4.2.1</maven-bundle-plugin>
+		<karaf-maven-plugin>4.2.6</karaf-maven-plugin>
+	</properties>
+
+	<modules>
+		<module>CesOSGiAPIM</module>
+		<module>CesOSGiDOE</module>
+
+		<module>SerJava</module>
+		<module>SerJavaMain</module>
+
+		<module>SerOSGiHelloBa</module>
+		<module>SerOSGiHelloBaCli</module>
+
+		<module>SerOSGiHelloBas</module>
+		<module>SerOSGiHelloBasCli</module>
+
+		<module>SerOSGiTransDs</module>
+		<module>SerOSGiHelloDs</module>
+		<module>SerOSGiHelloDsCli</module>
+
+		<module>SerOSGiHelloRsCli</module>
+		<module>SerOSGiTransRs</module>
+		<module>SerOSGiHelloRs</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.core</artifactId>
+				<scope>provided</scope>
+				<version>${osgi}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.cmpn</artifactId>
+				<scope>provided</scope>
+				<version>${osgi}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.enterprise</artifactId>
+				<scope>provided</scope>
+				<version>${osgi}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.service.component</artifactId>
+				<scope>provided</scope>
+				<version>${org.osgi.service.component}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.service.component.annotations</artifactId>
+				<scope>provided</scope>
+				<version>${org.osgi.service.component.annotations}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.annotation</artifactId>
+				<scope>provided</scope>
+				<version>${osgi.annotation}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-bundle-plugin</artifactId>
+					<version>${maven-bundle-plugin}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.karaf.tooling</groupId>
+					<artifactId>karaf-maven-plugin</artifactId>
+					<version>${karaf-maven-plugin}</version>
+					<extensions>true</extensions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>${maven.compiler.source}</source>
+						<target>${maven.compiler.target}</target>
+						<maxmem>256M</maxmem>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${maven-install-plugin}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+	</build>
+</project>

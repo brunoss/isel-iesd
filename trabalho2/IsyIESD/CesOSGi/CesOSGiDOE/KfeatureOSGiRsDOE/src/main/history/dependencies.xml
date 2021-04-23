@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="deploy-activator-services">
+    <feature version="0.0.0">
+        <bundle>mvn:org.mdeos.osgi.tutorial.activator-services/library.ashelloworldimpl/1.0.0</bundle>
+        <bundle>mvn:org.mdeos.osgi.tutorial.activator-services/service.ashelloworldclient/1.0.0</bundle>
+        <bundle>mvn:org.mdeos.osgi.tutorial.helloworldservices/api.helloworld/1.0.0</bundle>
+    </feature>
+</features>

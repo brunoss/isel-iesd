@@ -1,0 +1,20 @@
+= Project CesOSGiDOE
+
+The deployment of Service elements can be done in different ways:
+* Operating system executable, Linux, Windows, MacOS, etc.
+* Java Virtual Machine (JVM)
+* OSGi runtime, e.g., Apache Karaf, Apache Felix, Eclipse Equinox, etc.
+* JINI dynamic distributed services framework
+* Java Enterprise Edition (JEE) bean components execution runtime. More recent implementation run on OSGi and since are made of OSGi bundles adopting services or bundle dependency mechanisms
+* Java Spring has a strong relation to OSGi through the Dynamic Services concept.
+* all above through a Unix/Linux container mechanism, e.g. docker, Windows Subsystem for Linux (WSL) 2
+* A specific, proprietary or open, deployment mechanism
+
+
+== For distributed Service elements
+An open integrated system or framework offering automation mechanisms to scale for thousand of service elements is lacking.
+
+We explore the OSGi open specifications as an interesting initiative towards such integrated life cycle management of Service elements. The 100 Remote Services specification has two main implementations (distribution providers):
+* Apache Aires Remote Service Admin (RSA) and Apache CXF (Soap and Rest web services framework) DOSGi project. The DOSGi project aims at offering transparent management of dependencies among services running on distributed OSGi containers (OSGi runtime).
+* The Eclipse Communication Framework (https://www.eclipse.org/ecf/[ECF]) is a "fully-compliant implementation of the OSGi Remote Services standard".
+
