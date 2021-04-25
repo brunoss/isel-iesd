@@ -1,5 +1,7 @@
 package isos.tutorial.isyiesd.cesvector.servectorcli;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,6 +34,23 @@ public class VectorClient {
 		}, 0, 10 * 1000);
 	}
 	
+	  public static boolean createFile() {
+	    try {
+	      File myObj = new File("filename.txt");
+	      System.out.println(myObj.getAbsolutePath());
+	      return myObj.createNewFile();
+	    } catch (IOException e) {
+	      System.out.println("An error occurred.");
+	      e.printStackTrace();
+	      return false;
+	    }
+	  }
+	  
+	public static boolean deleteFile() {
+      File myObj = new File("filename.txt");
+      return myObj.delete();
+	}
+	  
 	public static void fistExample() throws InterruptedException 
 	{
         VectorService service = new VectorService();
@@ -58,8 +77,23 @@ public class VectorClient {
 	{
 		VectorService vectorService = new VectorService();
         IVector vectorClient = vectorService.getVectorPort();
+        
+        int nAttempts = 0;
 		
 		while(true) {
+			if(!createFile()) {
+				try {
+					Thread.sleep(100);
+					++nAttempts;
+					if(nAttempts > 100) {
+						deleteFile();
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				continue;
+			}
 			//lê o valor dum indice aleatório do array
 			int srcIdx = r.nextInt(4);
 			int srcAmount = vectorClient.read(srcIdx);
@@ -81,6 +115,7 @@ public class VectorClient {
 			//acrescenta a quantia previamente retirada.
 			vectorClient.write(dstIdx, dstAmount + value);
 			nRequests.incrementAndGet();
+			deleteFile();
 		}
 	}
 	
