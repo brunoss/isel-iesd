@@ -87,6 +87,7 @@ public class VectorClient {
 					++nAttempts;
 					if(nAttempts > 100) {
 						deleteFile();
+						nAttempts = 0;
 					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
