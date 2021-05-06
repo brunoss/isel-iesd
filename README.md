@@ -1,4 +1,4 @@
-[Moodle](https://2021moodle.isel.pt/course/view.php?id=6221)
+# iesd2021sv
+Exemplos de referência de apoio à unidade curricular de IESD, Infraestruturas de Sistemas Distribuídos do  MEIC
 
-[Zoom](https://videoconf-colibri.zoom.us/j/86880083348?pwd=VzVCUkU1Zm0wQWl5UXVHOXM0MVRGZz09)
-Password: 373998
+Versão semestre 20/21 verão
