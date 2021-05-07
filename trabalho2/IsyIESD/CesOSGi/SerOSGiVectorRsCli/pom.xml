@@ -5,27 +5,23 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-	<groupId>isos.tutorial.ISyiesd</groupId>
-	<artifactId>CesOsgi</artifactId>
+		<groupId>isos.tutorial.isyiesd</groupId>
+		<artifactId>CesOsgi</artifactId>
 		<version>0.1.0</version>
 	</parent>
 
 	<groupId>isos.tutorial.isyiesd.cesosgi</groupId>
-	<artifactId>CesOSGiAPIM</artifactId>
+	<artifactId>SerOSGiVectorRsCli</artifactId>
 	<packaging>pom</packaging>
-	
-	<name>${module.type}  CesOSGiAPIM</name>
-	<description>Simple java services interfaces and models</description>
-	
+
+	<name>${module.type} SerOSGiVectorRsCli</name>
+	<description>Simple OSGi remote service</description>
 	<properties>
-		<module.type>APIM ::</module.type>
+		<module.type>SERVICE ::</module.type>
 	</properties>
 
 	<modules>
-		<module>HelloAPI</module>
-		<module>TranslatorAPI</module>
-		<module>VectorAPI</module>
-		<module>TranascationManagerAPI</module>
+		<module>SerOSGiVectorRsCliDOE</module>
+		<module>SerOSGiVectorRsCliOPE</module>
 	</modules>
-
 </project>

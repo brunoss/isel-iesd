@@ -6,17 +6,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-	<groupId>isos.tutorial.isyiesd.cesosgi</groupId>
-	<artifactId>SerOSGiVectorRs</artifactId>
+		<groupId>isos.tutorial.isyiesd.cesosgi</groupId>
+		<artifactId>SerOSGiVectorRsCli</artifactId>
 		<version>0.1.0</version>
 	</parent>
 
-	<groupId>isos.tutorial.isyiesd.cesosgi.serosgivectorrs</groupId>
-	<artifactId>SerOSGiVectorRsOPE</artifactId>
+	<groupId>isos.tutorial.isyiesd.cesosgi.serosgiVectorrscli</groupId>
+	<artifactId>SerOSGiVectorRsCliOPE</artifactId>
 	<packaging>bundle</packaging>
 
-	<name>${module.type} SerOSGiVectorRsOPE</name>
-	<description>Simple java service</description>
+	<name>${module.type} SerOSGiVectorRsCliOPE</name>
+	<description>Simple OSGi services examples</description>
 
 	<properties>
 		<module.type>SERVICE ::</module.type>
@@ -58,19 +58,10 @@
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-Activator></Bundle-Activator>
-						<Export-Package></Export-Package>
+						<Export-Package>org.mdeos.osgi.drservices.Vectorworldclient*;version=${project.version}</Export-Package>
 						<Import-Package>*</Import-Package>
-						<Service-Component>*</Service-Component>
+						<Service-Components>*</Service-Components>
 					</instructions>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${java-source}</source>
-					<target>${java-target}</target>
-					<maxmem>256M</maxmem>
 				</configuration>
 			</plugin>
 		</plugins>

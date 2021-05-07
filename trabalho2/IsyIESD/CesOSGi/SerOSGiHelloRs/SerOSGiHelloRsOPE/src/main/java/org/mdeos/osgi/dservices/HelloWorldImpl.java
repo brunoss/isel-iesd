@@ -1,6 +1,6 @@
 package org.mdeos.osgi.dservices;
 
-import org.mdeos.osgi.
+import org.mdeos.osgi.helloapi.*;
 import org.mdeos.osgi.translatorapi.Translator;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentContext;

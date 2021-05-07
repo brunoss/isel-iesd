@@ -7,15 +7,15 @@
 
 	<parent>
 	<groupId>isos.tutorial.isyiesd.cesosgi</groupId>
-	<artifactId>SerOSGiVectorRs</artifactId>
+	<artifactId>SerOSGiTransactionManagerRs</artifactId>
 		<version>0.1.0</version>
 	</parent>
 
-	<groupId>isos.tutorial.isyiesd.cesosgi.serosgivectorrs</groupId>
-	<artifactId>SerOSGiVectorRsOPE</artifactId>
+	<groupId>isos.tutorial.isyiesd.cesosgi.serosgiTransactionManagerrs</groupId>
+	<artifactId>SerOSGiTransactionManagerRsOPE</artifactId>
 	<packaging>bundle</packaging>
 
-	<name>${module.type} SerOSGiVectorRsOPE</name>
+	<name>${module.type} SerOSGiTransactionManagerRsOPE</name>
 	<description>Simple java service</description>
 
 	<properties>
@@ -37,11 +37,11 @@
 		</dependency>
 		<dependency>
 			<groupId>isos.tutorial.isyiesd.cesosgi.cesosgiapim</groupId>
-			<artifactId>VectorAPI</artifactId>
+			<artifactId>TransactionManagerAPI</artifactId>
 			<version>0.1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>isos.tutorial.isyiesd.cesosgi.cesosgiapim</groupId>
+			<groupId>isos.tutorial.isyiesd.cesosgi.serosgiTransactionManagerrs</groupId>
 			<artifactId>TransactionManagerAPI</artifactId>
 			<version>0.1.0</version>
 		</dependency>

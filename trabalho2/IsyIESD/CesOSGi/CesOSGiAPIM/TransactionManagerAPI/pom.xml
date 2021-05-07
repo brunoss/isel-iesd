@@ -6,46 +6,21 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-	<groupId>isos.tutorial.isyiesd.cesosgi</groupId>
-	<artifactId>SerOSGiVectorRs</artifactId>
+		<groupId>isos.tutorial.isyiesd.cesosgi</groupId>
+		<artifactId>CesOSGiAPIM</artifactId>
 		<version>0.1.0</version>
 	</parent>
 
-	<groupId>isos.tutorial.isyiesd.cesosgi.serosgivectorrs</groupId>
-	<artifactId>SerOSGiVectorRsOPE</artifactId>
+	<groupId>isos.tutorial.isyiesd.cesosgi.cesosgiapim</groupId>
+	<artifactId>TransactionManagerAPI</artifactId>
 	<packaging>bundle</packaging>
 
-	<name>${module.type} SerOSGiVectorRsOPE</name>
-	<description>Simple java service</description>
+	<name>${module.type}  TransactionManagerAPI</name>
+	<description>Simmple java TransactionManagerAPI service</description>
 
 	<properties>
-		<module.type>SERVICE ::</module.type>
+		<module.type>API ::</module.type>
 	</properties>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>osgi.core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.service.component.annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.service.component</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>isos.tutorial.isyiesd.cesosgi.cesosgiapim</groupId>
-			<artifactId>VectorAPI</artifactId>
-			<version>0.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>isos.tutorial.isyiesd.cesosgi.cesosgiapim</groupId>
-			<artifactId>TransactionManagerAPI</artifactId>
-			<version>0.1.0</version>
-		</dependency>
-	</dependencies>
 
 	<build>
 		<plugins>
@@ -58,9 +33,8 @@
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-Activator></Bundle-Activator>
-						<Export-Package></Export-Package>
+						<Export-Package>org.mdeos.osgi.TransactionManagerAPI*;version=${project.version}</Export-Package>
 						<Import-Package>*</Import-Package>
-						<Service-Component>*</Service-Component>
 					</instructions>
 				</configuration>
 			</plugin>
