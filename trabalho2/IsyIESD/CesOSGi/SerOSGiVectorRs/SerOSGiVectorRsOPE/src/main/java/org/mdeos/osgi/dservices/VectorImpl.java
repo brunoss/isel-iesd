@@ -1,6 +1,6 @@
 package org.mdeos.osgi.dservices;
 
-import org.mdeos.osgi.
+import org.mdeos.osgi.vectorapi.IVector;
 import org.mdeos.osgi.translatorapi.Translator;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentContext;
@@ -22,13 +22,13 @@ import java.util.Enumeration;
 
 		// Service meta-data definition
 		"ServiceName=HelloWorld", "ServiceVersion=1.0.0", "ServiceProvider=osgi.helloworldservices", })
-public class HelloWorldImpl implements HelloWorld {
+public class VectorImpl implements IVector {
 
 	@Reference(bind = "bindTranslator")
 	Translator translator;
 	ComponentContext componentContext = null;
 
-	public HelloWorldImpl() {
+	public VectorImpl() {
 		System.out.println("## HelloWorldImpl contructor of ...");
 	}
 

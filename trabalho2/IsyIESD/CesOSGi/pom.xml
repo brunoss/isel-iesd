@@ -6,11 +6,11 @@
 
 	<parent>
 		<groupId>isos.tutorial</groupId>
-		<artifactId>ISyIESD</artifactId>
+		<artifactId>IsyIESD</artifactId>
 		<version>0.1.0</version>
 	</parent>
 
-	<groupId>isos.tutorial.isyiesd</groupId>
+	<groupId>isos.tutorial.ISyiesd</groupId>
 	<artifactId>CesOsgi</artifactId>
 	<packaging>pom</packaging>
 
@@ -53,6 +53,8 @@
 		<module>SerOSGiHelloRsCli</module>
 		<module>SerOSGiTransRs</module>
 		<module>SerOSGiHelloRs</module>
+		
+		<module>SerOSGiVectorRs</module>
 	</modules>
 
 	<dependencyManagement>
