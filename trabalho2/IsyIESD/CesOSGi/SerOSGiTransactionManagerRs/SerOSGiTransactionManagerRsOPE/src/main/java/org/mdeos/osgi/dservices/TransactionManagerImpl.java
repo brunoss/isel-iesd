@@ -65,12 +65,22 @@ public class TransactionManagerImpl implements ITransactionManager {
 	}
 
 	@Override
-	public String getToken(Collection<OperationIdentifier> operations) {
+	public String getToken(Collection<OperationIdentifier> operations) 
+	{
+		while(!createFile()) {
+			try {
+				Thread.sleep(50);
+			}catch(InterruptedException e) {
+				
+			}
+		}
+		
 		String guid = java.util.UUID.randomUUID().toString();
 		map.put(guid, operations);
 		return guid;
 	}
 	
+
 	  public static boolean createFile() {
 	    try {
 	      File myObj = new File("filename.txt");
@@ -87,7 +97,7 @@ public class TransactionManagerImpl implements ITransactionManager {
 	      File myObj = new File("filename.txt");
 	      return myObj.delete();
 	  }
-	  
+
 	@Override
 	public Collection<OperationIdentifier> identifyTransaction(String token) {
 		Collection<OperationIdentifier> operations = map.get(token);
@@ -96,14 +106,14 @@ public class TransactionManagerImpl implements ITransactionManager {
 		Collection<OperationIdentifier> allOperations = stream.collect(Collectors.toList());
 		for(OperationIdentifier identifier : operations) {
 			if(allOperations.contains(identifier)) {
-				while(!createFile()) {
+				/*while(!createFile()) {
 					try {
 						Thread.sleep(50);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
+				}*/
 			}
 		}
 		
@@ -112,7 +122,7 @@ public class TransactionManagerImpl implements ITransactionManager {
 
 	@Override
 	public void commit(String token) {
-		deleteFile();
+		//deleteFile();
 		map.remove(token);
 	}
 }

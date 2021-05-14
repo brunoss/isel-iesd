@@ -40,11 +40,6 @@
 			<artifactId>TransactionManagerAPI</artifactId>
 			<version>0.1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>isos.tutorial.isyiesd.cesosgi.serosgiTransactionManagerrs</groupId>
-			<artifactId>TransactionManagerAPI</artifactId>
-			<version>0.1.0</version>
-		</dependency>
 	</dependencies>
 
 	<build>
