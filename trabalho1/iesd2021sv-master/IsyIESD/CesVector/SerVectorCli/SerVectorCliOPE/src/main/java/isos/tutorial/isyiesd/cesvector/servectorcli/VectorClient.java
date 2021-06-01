@@ -37,7 +37,6 @@ public class VectorClient {
 	  public static boolean createFile() {
 	    try {
 	      File myObj = new File("filename.txt");
-	      System.out.println(myObj.getAbsolutePath());
 	      return myObj.createNewFile();
 	    } catch (IOException e) {
 	      System.out.println("An error occurred.");
