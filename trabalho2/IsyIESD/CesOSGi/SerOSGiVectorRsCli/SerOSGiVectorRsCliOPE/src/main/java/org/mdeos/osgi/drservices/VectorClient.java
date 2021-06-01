@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
+import org.mdeos.osgi.transaction.ILockManager;
 import org.mdeos.osgi.transaction.ITransactionManager;
 import org.mdeos.osgi.transaction.Operation;
 import org.mdeos.osgi.transaction.OperationIdentifier;
@@ -20,11 +21,16 @@ public class VectorClient {
 	
 	static final Random r = new Random();
 
-    @Reference(bind = "bindHelloworld")
+    @Reference(bind = "bindVectors")
     List<IVector> vectors;
-    ITransactionManager manager;
+    @Reference(bind = "bindTransactionManager")
+    ITransactionManager transactionManager;
+    @Reference(bind = "bindLockManager")
+    ILockManager lockManager;
+    
     ComponentContext componentContext;
 
+    
     public VectorClient() {
         System.out.println("## HelloWorldClient contructor...");
     }
@@ -38,11 +44,8 @@ public class VectorClient {
     	}
     }
     
-    @Activate
-    void activate(ComponentContext componentContext) { // role of start()
-        System.out.println("CES :: HelloWorldClient.activate()...");
-        this.componentContext = componentContext;
-
+    private void ReadAndWriteValues() 
+    {
         int random = r.nextInt(vectors.size());
         IVector vector1 = vectors.get(random);
         random = getRandom(random);
@@ -71,7 +74,7 @@ public class VectorClient {
         operations.add(write2);
         
         while(true) {
-            String token = manager.getToken(operations);
+            String token = transactionManager.getToken(operations);
             
             random = r.nextInt(4);
             int value = vector1.read(token, random);
@@ -85,18 +88,45 @@ public class VectorClient {
             random = getRandom(random);
             vector2.write(token, random, value + ammount);
             
-            manager.commit(token);
+            transactionManager.commit(token);
         }
     }
+    
+    void testLockManager() {
+        Collection<OperationIdentifier> operations = new ArrayList<OperationIdentifier>();
+        OperationIdentifier writeOperation = new OperationIdentifier();
+        writeOperation.Position = 0;
+        writeOperation.Server = "localhost";
+        writeOperation.Operation = Operation.Write;
+        operations.add(writeOperation);
 
+    	lockManager.getLocks("1", operations, null);
+    }
+    
+    @Activate
+    void activate(ComponentContext componentContext) { // role of start()
+        System.out.println("CES :: HelloWorldClient.activate()...");
+        this.componentContext = componentContext;
+        
+        testLockManager();
+    }
+    
     @Deactivate
     void deactivate(ComponentContext componentContext) {
         System.out.println("CES :: HelloWorldClient.deactivate() called...");
         this.componentContext = null;
     }
 
-    public void bindHelloworld(List<IVector> vectors) {
+    public void bindVectors(List<IVector> vectors) {
         System.out.println("CES :: HelloWorldClient.bindHelloworld() called...");
         this.vectors = vectors;
+    }
+    
+    public void bindTransactionManager(ITransactionManager transactionManager) {
+    	this.transactionManager = transactionManager;
+    }
+    
+    public void bindLockManager(ILockManager lockManager) {
+    	this.lockManager = lockManager;
     }
 }
