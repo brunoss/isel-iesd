@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,28 +17,33 @@ public class LockManager extends UnicastRemoteObject implements ILockManager {
     }
 
     @Override
-    public String getLocks(String token, Collection<OperationIdentifier> operations, ILockNotifier notifier) {
-        String guid = java.util.UUID.randomUUID().toString();
-
-        if(canCreateLock(operations)) {
-            lockMap.put(guid, operations);
+    public boolean getLocks(String token, Collection<OperationIdentifier> operations, ILockNotifier notifier) {
+        boolean lockCreated = false;
+        synchronized (lockMap){
+            if(canCreateLock(operations)) {
+                lockMap.put(token, operations);
+                lockCreated = true;
+            }
+            else
+            {
+                PendingLock lock = new PendingLock();
+                lock.LockNotifier = notifier;
+                lock.OperationIdentifier = operations;
+                pendingLocksMap.put(token, lock);
+                return false;
+            }
+        }
+        if(lockCreated){
             try {
                 if(notifier != null){
-                    notifier.NotifyAvailableLock(guid);
+                    notifier.NotifyAvailableLock(token);
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            return guid;
         }
-        else
-        {
-            PendingLock lock = new PendingLock();
-            lock.LockNotifier = notifier;
-            lock.OperationIdentifier = operations;
-            pendingLocksMap.put(guid, lock);
-            return null;
-        }
+
+        return lockCreated;
     }
 
     private boolean canCreateLock(Collection<OperationIdentifier> operations){
@@ -58,25 +64,31 @@ public class LockManager extends UnicastRemoteObject implements ILockManager {
 
     @Override
     public void unlock(String token) {
-        if(lockMap.containsKey(token)) {
-            lockMap.remove(token);
-        }
+        ArrayList<Map.Entry<String, PendingLock>> notifications = new ArrayList<>();
 
-        if(pendingLocksMap.size() > 0) {
-            for(Map.Entry<String, PendingLock> lock : pendingLocksMap.entrySet()) {
-                Stream<OperationIdentifier> stream = lockMap.values().stream().flatMap(Collection::stream);
-                Collection<OperationIdentifier> allOperations = stream.collect(Collectors.toList());
+        synchronized (lockMap){
+            if(lockMap.containsKey(token)) {
+                lockMap.remove(token);
+            }
 
-                if(canCreateLock(lock.getValue())) {
-                    lockMap.put(lock.getKey(), allOperations);
-                    try {
-                        if(lock.getValue().LockNotifier != null){
-                            lock.getValue().LockNotifier.NotifyAvailableLock(lock.getKey());
-                        }
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
+            if(pendingLocksMap.size() > 0) {
+                for(Map.Entry<String, PendingLock> lock : pendingLocksMap.entrySet()) {
+                    Stream<OperationIdentifier> stream = lockMap.values().stream().flatMap(Collection::stream);
+                    Collection<OperationIdentifier> allOperations = stream.collect(Collectors.toList());
+
+                    if(canCreateLock(lock.getValue())) {
+                        lockMap.put(lock.getKey(), allOperations);
+                        notifications.add(lock);
                     }
                 }
+            }
+        }
+
+        for(Map.Entry<String, PendingLock> current : notifications){
+            try {
+                current.getValue().LockNotifier.NotifyAvailableLock(current.getKey());
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
         }
     }

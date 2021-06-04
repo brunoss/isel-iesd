@@ -5,8 +5,10 @@ import java.util.*;
 public class VectorService extends UnicastRemoteObject implements  IVector{
     private static List<Integer> vector = Arrays.asList(300, 234, 56, 789);
     private static Map<String, ArrayList<VectorWriteOperation>> operationMap = new HashMap<>();
+    private int instanceId;
 
-    protected VectorService() throws RemoteException {
+    protected VectorService(int instanceId) throws RemoteException {
+        this.instanceId = instanceId;
     }
 
     @Override
@@ -16,17 +18,19 @@ public class VectorService extends UnicastRemoteObject implements  IVector{
 
     @Override
     public void write(String token, int pos, int value) throws RemoteException {
-        ArrayList<VectorWriteOperation> operationList = null;
-        if(!operationMap.containsKey(token)){
-            operationList = new ArrayList<VectorWriteOperation>();
-            operationMap.put(token, operationList);
-        }else{
-            operationList = operationMap.get(token);
+        synchronized (operationMap){
+            ArrayList<VectorWriteOperation> operationList = null;
+            if(!operationMap.containsKey(token)){
+                operationList = new ArrayList<VectorWriteOperation>();
+                operationMap.put(token, operationList);
+            }else{
+                operationList = operationMap.get(token);
+            }
+            VectorWriteOperation operation = new VectorWriteOperation();
+            operation.Position = pos;
+            operation.Value = value;
+            operationList.add(operation);
         }
-        VectorWriteOperation operation = new VectorWriteOperation();
-        operation.Position = pos;
-        operation.Value = value;
-        operationList.add(operation);
     }
 
     @Override

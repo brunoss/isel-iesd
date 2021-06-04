@@ -8,14 +8,15 @@ import java.util.stream.Collectors;
 
 public class TransactionManager extends UnicastRemoteObject implements ITransactionManager {
     private static final Map<String, Collection<OperationIdentifier>> lockMap = new HashMap<String, Collection<OperationIdentifier>>();
-    private static final ArrayList<IVector> vectors = new ArrayList<>();
+    private static ArrayList<VectorService> vectors = new ArrayList<>();
     private static int Sum;
 
-    protected TransactionManager() throws RemoteException {
+    protected TransactionManager(ArrayList<VectorService> vectors) throws RemoteException {
+        TransactionManager.vectors = vectors;
         Sum = sumVectors();
     }
 
-    private int sumVectors(){
+    private int sumVectors() throws RemoteException {
         int sum = 0;
         for(IVector vector : vectors){
             sum += vector.sum();
@@ -25,9 +26,11 @@ public class TransactionManager extends UnicastRemoteObject implements ITransact
 
     @Override
     public String getToken(Collection<OperationIdentifier> operations) throws RemoteException {
-        String guid = java.util.UUID.randomUUID().toString();
-        lockMap.put(guid, operations);
-        return guid;
+        synchronized (lockMap){
+            String guid = java.util.UUID.randomUUID().toString();
+            lockMap.put(guid, operations);
+            return guid;
+        }
     }
 
     @Override
