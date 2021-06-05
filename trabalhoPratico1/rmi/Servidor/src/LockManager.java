@@ -78,6 +78,7 @@ public class LockManager extends UnicastRemoteObject implements ILockManager {
 
                     if(canCreateLock(lock.getValue())) {
                         lockMap.put(lock.getKey(), allOperations);
+                        pendingLocksMap.remove(lock.getKey());
                         notifications.add(lock);
                     }
                 }

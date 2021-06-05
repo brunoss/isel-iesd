@@ -10,6 +10,7 @@ public class TransactionManager extends UnicastRemoteObject implements ITransact
     private static final Map<String, Collection<OperationIdentifier>> lockMap = new HashMap<String, Collection<OperationIdentifier>>();
     private static ArrayList<VectorService> vectors = new ArrayList<>();
     private static int Sum;
+    private static int nCommits = 0;
 
     protected TransactionManager(ArrayList<VectorService> vectors) throws RemoteException {
         TransactionManager.vectors = vectors;
@@ -40,12 +41,15 @@ public class TransactionManager extends UnicastRemoteObject implements ITransact
 
     @Override
     public boolean commit(String token) throws RemoteException {
-        if(!lockMap.containsKey(token)){
-            return false;
-        }
+        Collection<OperationIdentifier> operations = null;
+        synchronized (lockMap){
+            if(!lockMap.containsKey(token)){
+                return false;
+            }
 
-        Collection<OperationIdentifier> operations = lockMap.get(token);
-        lockMap.remove(token);
+            operations = lockMap.get(token);
+            lockMap.remove(token);
+        }
 
         Registry registry = LocateRegistry.getRegistry("localhost", 8001);
         Map<String, List<OperationIdentifier>> serverOperations = operations
@@ -72,6 +76,10 @@ public class TransactionManager extends UnicastRemoteObject implements ITransact
                 IVector vector = (IVector) registry.lookup(entry.getKey());
                 if(canCommit){
                     vector.commit(token);
+
+                    synchronized (vectors){
+                        ++nCommits;
+                    }
                 }else{
                     vector.rollback(token);
                 }
@@ -80,7 +88,15 @@ public class TransactionManager extends UnicastRemoteObject implements ITransact
             }
         }
 
-        if(Sum != sumVectors()){
+        boolean canVerifyInvariant = false;
+        synchronized (vectors){
+            --nCommits;
+            if(nCommits == 0){
+                canVerifyInvariant = true;
+            }
+        }
+
+        if(canVerifyInvariant && Sum != sumVectors()){
             System.out.println("Deu Barraca!!!!");
         }
 
